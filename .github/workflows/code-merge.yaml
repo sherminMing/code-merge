@@ -111,10 +111,17 @@ jobs:
           
       - name: Merge into Main  
         run: |  
-          git checkout main  
-          git pull  
-          git merge --no-ff origin/$GITHUB_REF  
-          git push origin main  
+          # git checkout main  
+          # git pull  
+          # git merge --no-ff origin/$GITHUB_REF  
+          # git push origin main  
+          git checkout main
+          git pull
+          git checkout $GITHUB_REF
+          git pull
+          git checkout $GITHUB_REF
+          git pull
+          git merge $GITHUB_REF
           
   create-release:  
     name: Create Release  
