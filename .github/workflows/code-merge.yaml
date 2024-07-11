@@ -47,7 +47,8 @@ jobs:
           mvn versions:set -DnewVersion=${{ steps.versionNumber.outputs.version }} -DgenerateBackupPoms=false
       - name: Commit pom.xml
         run: |
-          git config --global --add safe.directory "$(pwd)" 
+          ls
+          
           git config --global user.email "automationNoReply@ssnc.com"
           git config --global user.name "Github Automation"
           git add pom.xml
