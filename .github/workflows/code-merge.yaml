@@ -17,10 +17,25 @@ jobs:
           echo "v$(date "+%Y%m%d%H%M%S")" > version.txt  
 
       - name: Upload Artifact
+        id: upload-artifact
         uses: actions/upload-artifact@v2
         with:
           name: version-artifact
           path: "version.txt"
+
+      - name: Get Artifact ID
+        run: echo "Artifact ID is ${{ steps.upload-artifact.outputs.artifact_id }}"
+        
+      - name: Write Version to File
+        run: |
+          echo "${{ steps.upload-artifact.outputs.artifact_id }}" > artifact-id.txt  
+          
+      - name: Upload Artifact Id
+        id: upload-artifact-id
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact-id
+          path: "artifact-id.txt"
 
   update-version:
     name: Increment Version in pom.xml
@@ -47,8 +62,6 @@ jobs:
           mvn versions:set -DnewVersion=${{ steps.versionNumber.outputs.version }} -DgenerateBackupPoms=false
       - name: Commit pom.xml
         run: |
-          ls
-          
           git config --global user.email "automationNoReply@ssnc.com"
           git config --global user.name "Github Automation"
           git add pom.xml
@@ -87,7 +100,8 @@ jobs:
           git push origin ${{ steps.versionNumber.outputs.version}}
           
   merge-into-main:  
-    runs-on: uk-digital-k8s-self-hosted  
+    name: Merge-into-main
+    runs-on: ubuntu-latest  
     needs: create-tag
     steps:  
       - name: Checkout  
@@ -97,7 +111,6 @@ jobs:
           
       - name: Merge into Main  
         run: |  
-          ls
           git checkout main  
           git pull  
           git merge --no-ff origin/$GITHUB_REF  
