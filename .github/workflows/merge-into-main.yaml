@@ -12,8 +12,7 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
 
       # https://github.com/marketplace/actions/github-pull-request-action
       - name: create pull request
