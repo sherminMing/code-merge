@@ -5,12 +5,11 @@ on:
 
 jobs:
   main:
-    name: Create PR Release to Main
+    name: Create PR From Release to Main
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
         uses: actions/checkout@v3
-
 
       - name: create pull request
         id: open-pr
