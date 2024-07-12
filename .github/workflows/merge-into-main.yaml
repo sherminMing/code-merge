@@ -1,7 +1,9 @@
 name: Merge Release Into Main
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - 'release/*/*'
 
 jobs:
   main:
