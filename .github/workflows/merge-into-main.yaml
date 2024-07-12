@@ -3,7 +3,7 @@ name: Merge Release Into Main
 on:
   push:
     branches:
-      - 'release/*/*'
+      - 'release/1234'
 
 jobs:
   main:
