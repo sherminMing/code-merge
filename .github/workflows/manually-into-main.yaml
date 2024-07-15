@@ -11,6 +11,11 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v3
 
+      - name: Git config
+        run: |
+          git --version
+          gh --version
+    
       - name: create pull request
         id: open-pr
         uses: repo-sync/pull-request@v2
