@@ -1,9 +1,6 @@
 name: Wait for PR Merge  
-on:  
-  pull_request:  
-    types: [closed]  
-    branches:  
-      - main  
+on:
+  workflow_dispatch:
   
 jobs:  
   Check-pr-status:  
