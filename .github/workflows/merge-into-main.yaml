@@ -1,10 +1,8 @@
 name: Merge Release Into Main
 
 on:
-  push:
-    branches:
-      - 'release/1234'
-
+  workflow_dispatch:
+  
 jobs:
   main:
     name: Create PR From Release to Main
