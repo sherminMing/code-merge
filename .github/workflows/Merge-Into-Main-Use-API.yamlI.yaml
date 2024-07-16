@@ -1,16 +1,14 @@
-name: Merge Release to main
+name: Merge Release to main by API
 
 on:
-  push:
-    branches:
-      - release
+  workflow_dispatch:
 
 jobs:
   merge:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Merge release into main
         run: |
