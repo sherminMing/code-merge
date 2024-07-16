@@ -13,7 +13,7 @@ jobs:
   
       - name: Create Pull Request  
         run: |  
-          gh pr create --title "New Feature" --base main --head ${{ github.head_ref }} --body "Please review this new feature."  
+          gh pr create --base main --head ${{ github.ref_name }} --title "[Automated] Create PR from  ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"" --body "Please review this PR for."
   
       - name: Extract PR URL  
         id: extract_pr_url  
