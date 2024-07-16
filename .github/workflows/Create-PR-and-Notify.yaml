@@ -1,0 +1,33 @@
+name: Create PR and Notify  
+  
+on:
+  workflow_dispatch:
+
+  
+jobs:  
+  create-pr:  
+    runs-on: ubuntu-latest  
+    steps:  
+      - name: Checkout  
+        uses: actions/checkout@v3
+  
+      - name: Create Pull Request  
+        run: |  
+          gh pr create --title "New Feature" --base main --head ${{ github.head_ref }} --body "Please review this new feature."  
+  
+      - name: Extract PR URL  
+        id: extract_pr_url  
+        run: |  
+          pr_url=$(gh pr list -L 1 --json url --jq '.[0].url')  
+          eval echo "pr_url=$pr_url >> $GITHUB_OUTPUT"
+  
+      - name: Notify Reviewer  
+        env:  
+          GH_USER: sherminMing   
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}   
+        run: |  
+          curl -X POST \  
+            -H "Authorization: token $GH_TOKEN" \  
+            -H "Accept: application/vnd.github.v3+json" \  
+            https://api.github.com/repos/${{ github.repository }}/issues \  
+            -d "{\"title\":\"Review Request\",\"body\":\"Please review the PR at ${{ steps.extract_pr_url.outputs.pr_url }}\"}"  
