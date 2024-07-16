@@ -21,6 +21,7 @@ jobs:
           eval echo "pr_number=$PR_NUMBER >> $GITHUB_OUTPUT"
   
       - name: enable automerge
+        id: enable_automerge
         if: steps.create_pr.outputs.pr_number != ''
         uses: peter-evans/enable-pull-request-automerge@v2
         with:
