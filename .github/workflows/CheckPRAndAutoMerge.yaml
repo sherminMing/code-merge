@@ -28,6 +28,7 @@ jobs:
 
           PR_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" $PR_URL)
 
+          echo "${{PR_RESPONSE}}"
           # Check if request was successful
           if [ $? -ne 0 ]; then
             echo "Failed to fetch PR details."
