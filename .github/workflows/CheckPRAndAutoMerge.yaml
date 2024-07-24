@@ -12,7 +12,8 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Gh config and create PR
-      
+        env:
+           GH_TOKEN: ${{ github.token }}
         run: |
              gh --version
              git config --global user.email "automationNoReply@ssnc.com"
