@@ -1,0 +1,35 @@
+name: FSI Stage and Prod Workflow
+on:
+  workflow_dispatch:
+
+
+jobs:
+  create-pr-before-merge-into-main:  
+    runs-on: ubuntu-latest 
+    name: Create PR From Release to Main
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+        
+      - name: Gh config and create PR
+        run: |
+             gh --version
+             git config --global user.email "automationNoReply@ssnc.com"
+             git config --global user.name "Github Automation"
+             gh pr create --base main --head ${{ github.ref_name }} --title "[Automated] Create PR From ${{ github.ref_name }} into main" --body "Automated Pull Request" 
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Merge PR if no conflicts
+        run: |
+          git fetch origin ${{ github.base_ref }}:$GITHUB_SHA
+          git checkout $GITHUB_SHA
+
+          git merge --no-ff --no-edit ${{ github.head_ref }}
+
+          if [ $? -eq 0 ]; then
+            echo "Merge successful"
+            git push origin $GITHUB_SHA:refs/heads/${{ github.base_ref }}
+          else
+            echo "Merge had conflicts, skipping automatic merge"
+          fi
