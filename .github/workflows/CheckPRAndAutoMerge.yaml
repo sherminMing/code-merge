@@ -26,17 +26,18 @@ jobs:
         run: |
           PR_URL=${{ steps.create_pr.outputs.pr_url }}
 
-          PR_RESPONSE=$(curl -s -H "Authorization: token ${{ github.token }}" $PR_URL)
-         
+          PR_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" $PR_URL)
+
+          # Check if request was successful
           if [ $? -ne 0 ]; then
             echo "Failed to fetch PR details."
             exit 1
           fi
 
-   
+          # Extract merge status
           MERGED=$(echo "$PR_RESPONSE" | jq -r '.merged')
 
-          
+          # Output merge status
           if [ "$MERGED" = "true" ]; then
             echo "Pull Request is merged."
           else
@@ -44,4 +45,4 @@ jobs:
           fi
 
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
