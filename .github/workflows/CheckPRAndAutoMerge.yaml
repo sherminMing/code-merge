@@ -11,26 +11,37 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v3
         
-      - name: Gh config and create PR
+      - name: Create Pull Request  
+        id: create_pr
         env:
            GH_TOKEN: ${{ github.token }}
+        run: |  
+          PR_URL=$(gh pr create --base main --head ${{ github.ref_name }} --title "[Automated] Create PR from  ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}" --body "Please review this PR.")
+          PR_NUMBER=$(echo "$PR_URL" | sed 's/.*\///')
+          eval echo "pr_number=$PR_NUMBER >> $GITHUB_OUTPUT"
+          eval echo "pr_url=$PR_URL >> $GITHUB_OUTPUT"
+
+      - name: Check PR Merge Status
+        id: pr_merge_status
         run: |
-             gh --version
-             git config --global user.email "automationNoReply@ssnc.com"
-             git config --global user.name "Github Automation"
-             gh pr create --base main --head ${{ github.ref_name }} --title "[Automated] Create PR From ${{ github.ref_name }} into main" --body "Automated Pull Request" 
+          PR_URL=${{ steps.create_pr.outputs.pr_url }}
 
-
-      - name: Merge PR if no conflicts
-        run: |
-          git fetch origin ${{ github.base_ref }}:$GITHUB_SHA
-          git checkout $GITHUB_SHA
-
-          git merge --no-ff --no-edit ${{ github.head_ref }}
-
-          if [ $? -eq 0 ]; then
-            echo "Merge successful"
-            git push origin $GITHUB_SHA:refs/heads/${{ github.base_ref }}
-          else
-            echo "Merge had conflicts, skipping automatic merge"
+          PR_RESPONSE=$(curl -s -H "Authorization: token ${{ github.token }}" $PR_URL)
+         
+          if [ $? -ne 0 ]; then
+            echo "Failed to fetch PR details."
+            exit 1
           fi
+
+   
+          MERGED=$(echo "$PR_RESPONSE" | jq -r '.merged')
+
+          
+          if [ "$MERGED" = "true" ]; then
+            echo "Pull Request is merged."
+          else
+            echo "Pull Request is not merged."
+          fi
+
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
