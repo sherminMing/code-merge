@@ -12,13 +12,13 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Gh config and create PR
+      
         run: |
              gh --version
              git config --global user.email "automationNoReply@ssnc.com"
              git config --global user.name "Github Automation"
              gh pr create --base main --head ${{ github.ref_name }} --title "[Automated] Create PR From ${{ github.ref_name }} into main" --body "Automated Pull Request" 
-      - name: Checkout repository
-        uses: actions/checkout@v2
+
 
       - name: Merge PR if no conflicts
         run: |
