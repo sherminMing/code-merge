@@ -38,6 +38,8 @@ jobs:
           # Extract merge status
           MERGED=$(echo "$PR_RESPONSE" | jq -r '.merged')
 
+          echo $MERGED
+
           # Output merge status
           if [ "$MERGED" = "true" ]; then
             echo "Pull Request is merged."
