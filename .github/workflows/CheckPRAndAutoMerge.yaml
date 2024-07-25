@@ -30,9 +30,9 @@ jobs:
 
           
           
-          if [ "$MERGEABLE_STATUS" -eq "CONFLICTING" ]; then
+          if [ "$MERGEABLE_STATUS" = "CONFLICTING" ]; then
             echo "PR has conflicts. Cannot merge automatically."
-          elif [ "$MERGEABLE_STATUS" -eq "MERGEABLE" ]; then
+          elif [ "$MERGEABLE_STATUS" = "MERGEABLE" ]; then
             gh pr merge $PR_NUMBER --merge
             echo "PR has been automatically merged."
           else
