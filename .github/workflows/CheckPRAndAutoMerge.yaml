@@ -38,6 +38,7 @@ jobs:
           else
             echo "Unexpected mergeable status: $MERGEABLE_STATUS"
           fi
+        shell: bash 
           
 
 
