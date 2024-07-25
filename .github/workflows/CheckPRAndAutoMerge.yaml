@@ -1,4 +1,4 @@
-name: FSI Stage and Prod Workflow
+name: Create PR and Auto Merge
 on:
   workflow_dispatch:
 
