@@ -29,7 +29,7 @@ jobs:
           MERGEABLE_STATUS=$(echo "$PR_STATUS" | jq '.currentBranch.mergeable')
           echo "Mergeable status: $MERGEABLE_STATUS"
           
-          if [ $MERGEABLE_STATUS == "MERGEABLE" ]; then
+          if [[ $MERGEABLE_STATUS == "MERGEABLE" ]]; then
             gh pr merge $PR_NUMBER
             echo "This PR is mergeable without conflicts." 
           else
