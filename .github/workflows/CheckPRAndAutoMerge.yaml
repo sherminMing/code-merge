@@ -31,9 +31,10 @@ jobs:
           
           if [ "$MERGEABLE_STATUS" == "CONFLICTING" ]; then
             echo "PR has conflicts. Cannot merge automatically."
+            exit 1
           else
-            # gh pr merge $PR_NUMBER
-            # echo "This PR is mergeable without conflicts." 
+            gh pr merge $PR_NUMBER
+            echo "This PR is mergeable without conflicts." 
           fi
           
 
