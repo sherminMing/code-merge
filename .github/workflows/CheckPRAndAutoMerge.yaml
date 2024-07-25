@@ -29,15 +29,16 @@ jobs:
           MERGEABLE_STATUS=$(echo "$PR_STATUS" | jq '.currentBranch.mergeable')
           echo "Mergeable status: $MERGEABLE_STATUS"
 
-          gh pr merge $PR_NUMBER --merge
           
-          # if [ "$MERGEABLE_STATUS" = "CONFLICTING" ]; then
-          #   echo "PR has conflicts. Cannot merge."
-          # elif [ "$MERGEABLE_STATUS" = "MERGEABLE" ]; then
-          #   echo "PR can be merged."
-          # else
-          #   echo "Unexpected mergeable status: $MERGEABLE_STATUS"
-          # fi
+          
+          if [ "$MERGEABLE_STATUS" -eq "CONFLICTING" ]; then
+            echo "PR has conflicts. Cannot merge automatically."
+          elif [ "$MERGEABLE_STATUS" -eq "MERGEABLE" ]; then
+            gh pr merge $PR_NUMBER --merge
+            echo "PR has been automatically merged."
+          else
+            echo "Unexpected mergeable status: $MERGEABLE_STATUS"
+          fi
           
 
 
