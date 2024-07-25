@@ -19,23 +19,14 @@ jobs:
           PR_URL=$(gh pr create --base main --head ${{ github.ref_name }} --title "[Automated] Create PR from  ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}" --body "Please review this PR.")
           echo "PR url is $PR_URL"
           PR_NUMBER=$(echo "$PR_URL" | sed 's/.*\///')
-          eval echo "pr_number=$PR_NUMBER >> $GITHUB_OUTPUT"
-          eval echo "pr_url=$PR_URL >> $GITHUB_OUTPUT"
+          # eval echo "pr_number=$PR_NUMBER >> $GITHUB_OUTPUT"
+          # eval echo "pr_url=$PR_URL >> $GITHUB_OUTPUT"
           PR_STATUS=$(gh pr status --conflict-status --json url,number,state,mergeable)
+          echo "$PR_STATUS"
           # Parse JSON and extract mergeable status
           MERGEABLE_STATUS=$(echo "$PR_STATUS" | jq '.createdBy[0].mergeable')
           PR_STATUS=$(echo "$PR_STATUS" | jq -r '.createdBy[0].state')
           echo "Mergeable status: $MERGEABLE_STATUS"
           echo "PR status: $PR_STATUS"
 
-          # CONFLICT_STATUS=$(gh pr status --conflict-status | jq -r '.conflict_status')
-          
-          # # Check if output contains "No merge conflicts"
-          # if [ "$CONFLICT_STATUS" = "No merge conflicts" ]; then
-          #   echo "PR has no merge conflicts."
-          #   echo "PR number is $PR_NUMBER "
-          #   gh pr merge $PR_NUMBER
-          # else
-          #   echo "PR has merge conflicts."
-          # fi
 
