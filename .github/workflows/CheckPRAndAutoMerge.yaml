@@ -21,8 +21,11 @@ jobs:
           PR_NUMBER=$(echo "$PR_URL" | sed 's/.*\///')
           eval echo "pr_number=$PR_NUMBER >> $GITHUB_OUTPUT"
           eval echo "pr_url=$PR_URL >> $GITHUB_OUTPUT"
-
-          gh pr status --conflict-status --json url,number,title,state,mergeable
+          PR_STATUS=$(gh pr status --conflict-status --json url,number,title,state,mergeable)
+          # Parse JSON and extract mergeable status
+          MERGEABLE_STATUS=$(echo "$PR_STATUS" | jq -r '.[].mergeable')
+          echo "Mergeable status: $MERGEABLE_STATUS"
+          
 
           # CONFLICT_STATUS=$(gh pr status --conflict-status | jq -r '.conflict_status')
           
