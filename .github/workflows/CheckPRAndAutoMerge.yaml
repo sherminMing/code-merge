@@ -33,6 +33,7 @@ jobs:
             echo "PR has conflicts. Cannot merge automatically."
           else
             gh pr merge $PR_NUMBER
+            echo "This PR is mergeable without conflicts." 
           fi
           
 
