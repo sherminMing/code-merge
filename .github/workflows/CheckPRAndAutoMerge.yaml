@@ -32,7 +32,7 @@ jobs:
           eval echo "MERGEABLE_STATUS=$MERGEABLE_STATUS >> $GITHUB_OUTPUT"
           eval echo "PR_NUMBER=$PR_NUMBER >> $GITHUB_OUTPUT"
 
-          if test "$MERGEABLE_STATUS" == "MERGEABLE" ; then
+          if test $MERGEABLE_STATUS == "MERGEABLE" ; then
             gh pr merge ${{ steps.create_pr.outputs.PR_NUMBER }} --merge
             echo "PR has been automatically merged."
           fi
