@@ -20,10 +20,11 @@ jobs:
           PR_NUMBER=$(echo "$PR_URL" | sed 's/.*\///')
           eval echo "pr_number=$PR_NUMBER >> $GITHUB_OUTPUT"
           eval echo "pr_url=$PR_URL >> $GITHUB_OUTPUT"
-
-      - name: Check PR Merge Status
-        id: pr_merge_status
-        run: |
-
           gh pr status --conflict-status
+
+      # - name: Check PR Merge Status
+      #   id: pr_merge_status
+      #   run: |
+
+      #     gh pr status --conflict-status
 
