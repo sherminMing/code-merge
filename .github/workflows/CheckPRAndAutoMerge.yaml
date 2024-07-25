@@ -22,7 +22,7 @@ jobs:
           eval echo "pr_number=$PR_NUMBER >> $GITHUB_OUTPUT"
           eval echo "pr_url=$PR_URL >> $GITHUB_OUTPUT"
 
-          gh pr status --conflict-status --json url,number,title,state,conflict_status
+          gh pr status --conflict-status --json url,number,title,state,title
           # CONFLICT_STATUS=$(gh pr status --conflict-status | jq -r '.conflict_status')
           
           # # Check if output contains "No merge conflicts"
