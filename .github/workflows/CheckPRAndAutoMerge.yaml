@@ -28,13 +28,15 @@ jobs:
           # Parse JSON and extract mergeable status
           MERGEABLE_STATUS=$(echo "$PR_STATUS" | jq '.currentBranch.mergeable')
           echo "Mergeable status: $MERGEABLE_STATUS"
+
+          gh pr merge $PR_NUMBER --merge
           
-          # if [ "$MERGEABLE_STATUS" == "CONFLICTING" ]; then
-          #   echo "PR has conflicts. Cannot merge automatically."
-          #   exit 1
+          # if [ "$MERGEABLE_STATUS" = "CONFLICTING" ]; then
+          #   echo "PR has conflicts. Cannot merge."
+          # elif [ "$MERGEABLE_STATUS" = "MERGEABLE" ]; then
+          #   echo "PR can be merged."
           # else
-          #   gh pr merge $PR_NUMBER
-          #   echo "This PR is mergeable without conflicts." 
+          #   echo "Unexpected mergeable status: $MERGEABLE_STATUS"
           # fi
           
 
