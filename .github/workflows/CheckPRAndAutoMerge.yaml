@@ -26,8 +26,8 @@ jobs:
           echo "$PR_STATUS"
           # Parse JSON and extract mergeable status
           MERGEABLE_STATUS=$(echo "$PR_STATUS" | jq '.currentBranch.mergeable')
-          echo "Mergeable status: $MERGEABLE_STATUS"
-
+          echo "Mergeable status: "
+          echo "$MERGEABLE_STATUS"
           
           
           if [ "$MERGEABLE_STATUS" = "CONFLICTING" ]; then
@@ -38,7 +38,6 @@ jobs:
           else
             echo "Unexpected mergeable status: $MERGEABLE_STATUS"
           fi
-        shell: bash 
           
 
 
