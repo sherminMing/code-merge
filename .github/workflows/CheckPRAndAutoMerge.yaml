@@ -33,12 +33,12 @@ jobs:
           eval echo "PR_NUMBER=$PR_NUMBER >> $GITHUB_OUTPUT"
           
       - name: Check and Merge PR     
-        env:
-            GH_TOKEN: ${{ github.token }}
         if: ${{ steps.create_pr.outputs.MERGEABLE_STATUS == "MERGEABLE" }}
         run: |
             gh pr merge ${{ steps.create_pr.outputs.PR_NUMBER }} --merge
             echo "PR has been automatically merged."
+        env:
+            GH_TOKEN: ${{ github.token }}    
             
 
           
