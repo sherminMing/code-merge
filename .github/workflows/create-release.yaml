@@ -9,14 +9,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # - name: Create Git Tag
-      #   id: create_tag
-      #   run: |
-      #     git config --global --add safe.directory "$(pwd)" 
-      #     git config --global user.email "automationNoReply@ssnc.com"
-      #     git config --global user.name "Github Automation"       
-      #     git tag -a v1235 -m "Version v1235"  
-      #     git push origin v1235
+      - name: Create Git Tag
+        id: create_tag
+        run: |
+          git config --global --add safe.directory "$(pwd)" 
+          git config --global user.email "automationNoReply@ssnc.com"
+          git config --global user.name "Github Automation"       
+          git tag -a v1236 -m "Version v1236"  
+          git push origin v1236
         
       - name: Get latest tag
         id: latest_tag
