@@ -4,14 +4,8 @@ on:
   
 jobs:  
   generate-tag:
-    name: Generate Version Number
+    name: Generate Tag Number
     runs-on: ubuntu-latest 
-    container:
-      image: 732440210582.dkr.ecr.eu-west-1.amazonaws.com/library/openjdk:jdk21-maven-3-9-6
-      credentials:
-        username: AWS
-        password: ${{ secrets.AWS_ECR_PASSWORD }}
-      options: --user root
     steps:
       - name: Checkout
         uses: actions/checkout@v3
