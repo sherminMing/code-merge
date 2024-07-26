@@ -29,7 +29,7 @@ jobs:
         id: check_release
         run: |
           TAG_NAME=${{ steps.latest_tag.outputs.tag }}
-          EXISTING_RELEASE=$(gh release view $TAG_NAME --json name --jq ".name" 2>/dev/null)
+          EXISTING_RELEASE=$(gh release view $TAG_NAME --json name,tagName,apiUrl)
           echo "$EXISTING_RELEASE"
           if [ "$EXISTING_RELEASE" != "not found" ]; then
             echo "Release with tag $TAG_NAME already exists."
