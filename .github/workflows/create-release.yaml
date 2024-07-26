@@ -9,20 +9,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create Git Tag
-        id: create_tag
-        run: |
-          # git config --global --add safe.directory "$(pwd)" 
-          # git config --global user.email "automationNoReply@ssnc.com"
-          # git config --global user.name "Github Automation"       
-          # git tag -a v1234 -m "Version v1234"  
-          # git push origin v1234
+      # - name: Create Git Tag
+      #   id: create_tag
+      #   run: |
+      #     git config --global --add safe.directory "$(pwd)" 
+      #     git config --global user.email "automationNoReply@ssnc.com"
+      #     git config --global user.name "Github Automation"       
+      #     git tag -a v1234 -m "Version v1234"  
+      #     git push origin v1234
         
       - name: Get latest tag
         id: latest_tag
         run: |
+          git fetch --tags
           TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
-          echo "::set-output name=tag::$TAG"      
+          eval echo "tag=$TAG >> $GITHUB_OUTPUT"     
 
       - name: Check if release exists  
         id: check_release  
