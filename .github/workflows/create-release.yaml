@@ -27,6 +27,8 @@ jobs:
 
       - name: Check if release exists
         id: check_release
+        env:
+           GH_TOKEN: ${{ github.token }}
         run: |
           TAG_NAME=${{ steps.latest_tag.outputs.tag }}
           EXISTING_RELEASE=$(gh release view $TAG_NAME --json name,tagName,apiUrl)
