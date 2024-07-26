@@ -34,13 +34,7 @@ jobs:
           EXISTING_RELEASE=$(gh release view $TAG_NAME --json tagName --jq ".tagName" 2>/dev/null || echo "not found")
           echo "$EXISTING_RELEASE"
           eval echo "exists=$EXISTING_RELEASE" >> $GITHUB_OUTPUT
-          # if [ "$EXISTING_RELEASE" != "release not found" ]; then
-          #   echo "Release with tag $TAG_NAME already exists."
-          #   eval echo "exists=true" >> $GITHUB_OUTPUT
-          # else
-          #   echo "Release with tag $TAG_NAME does not exist."
-          #   eval echo "exists=false" >> $GITHUB_OUTPUT
-          # fi
+
           
       - name: Create Release
         if: steps.check_release.outputs.exists == 'not found'  
