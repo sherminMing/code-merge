@@ -25,21 +25,19 @@ jobs:
           TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
           eval echo "tag=$TAG >> $GITHUB_OUTPUT"     
 
-      - name: Check if release exists  
-        id: check_release  
-        env:  
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
-        run: |  
-          TAG_NAME=$(echo "$GITHUB_REF" | sed -e 's,.*/\(.*\),\1,') 
-          RELEASE_URL="https://api.github.com/repos/${{ github.repository }}/releases/tags/$TAG_NAME"  
-            
-          curl -sL $RELEASE_URL -o /dev/null -w "%{http_code}"  
-            
-          if [ $? -eq 22 ]; then  
-            eval echo "exists=false >> $GITHUB_OUTPUT"
-          else  
-             eval echo "exists=true >> $GITHUB_OUTPUT"
-          fi  
+      - name: Check if release exists
+        id: check_release
+        run: |
+          TAG_NAME=${{ steps.latest_tag.outputs.tag }}
+          EXISTING_RELEASE=$(gh release view $TAG_NAME --json name --jq ".name" 2>/dev/null || echo "not found")
+          
+          if [ "$EXISTING_RELEASE" != "not found" ]; then
+            echo "Release with tag $TAG_NAME already exists."
+            eval echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Release with tag $TAG_NAME does not exist."
+            eval echo "exists=false" >> $GITHUB_OUTPUT
+          fi
           
       - name: Create Release
         if: steps.check_release.outputs.exists == 'false'  
