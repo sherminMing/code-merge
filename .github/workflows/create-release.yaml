@@ -43,7 +43,7 @@ jobs:
           # fi
           
       - name: Create Release
-        if: steps.check_release.outputs.exists == 'release not found'  
+        if: steps.check_release.outputs.exists == '[]'  
         id: create_release
         uses: actions/create-release@v1.1.4
         env:
