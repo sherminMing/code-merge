@@ -31,7 +31,7 @@ jobs:
            GH_TOKEN: ${{ github.token }}
         run: |
           TAG_NAME=${{ steps.latest_tag.outputs.tag }}
-          EXISTING_RELEASE=$(gh release view $TAG_NAME --json name)
+          EXISTING_RELEASE=$(gh release list --json name,tagName)
           echo "$EXISTING_RELEASE"
           eval echo "exists=$EXISTING_RELEASE" >> $GITHUB_OUTPUT
           # if [ "$EXISTING_RELEASE" != "release not found" ]; then
