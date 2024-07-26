@@ -1,0 +1,19 @@
+name: Create Tag
+on:
+  workflow_dispatch:
+  
+jobs:  
+  Check-pr-status:  
+    runs-on: ubuntu-latest  
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create Git Tag
+        id: create_tag
+        run: |
+          git config --global --add safe.directory "$(pwd)" 
+          git config --global user.email "automationNoReply@ssnc.com"
+          git config --global user.name "Github Automation"       
+          git tag -a v1236 -m "Version v1236"  
+          git push origin v1236
