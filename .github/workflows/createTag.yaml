@@ -3,11 +3,50 @@ on:
   workflow_dispatch:
   
 jobs:  
-  Check-pr-status:  
-    runs-on: ubuntu-latest  
-    steps: 
-      - name: Checkout code
+  generate-tag:
+    name: Generate Version Number
+    runs-on: ubuntu-latest 
+    container:
+      image: 732440210582.dkr.ecr.eu-west-1.amazonaws.com/library/openjdk:jdk21-maven-3-9-6
+      credentials:
+        username: AWS
+        password: ${{ secrets.AWS_ECR_PASSWORD }}
+      options: --user root
+    steps:
+      - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Write Version to File
+        run: |
+          echo "v$(date "+%Y%m%d%H%M%S")" > version.txt  
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: version-artifact
+          path: "version.txt"
+          retention-days: 1
+  create-tag:  
+    name: Create Tag
+    needs: generate-tag
+    runs-on: ubuntu-latest  
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Download Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: version-artifact
+
+      - name: Read Version from File
+        id: versionNumber
+        run: |
+          cd version-artifact  
+          version=$(cat version.txt)  
+          echo "The version of new tag is: $version"
+          eval echo "version=$version >> $GITHUB_OUTPUT"
 
       - name: Create Git Tag
         id: create_tag
@@ -15,5 +54,5 @@ jobs:
           git config --global --add safe.directory "$(pwd)" 
           git config --global user.email "automationNoReply@ssnc.com"
           git config --global user.name "Github Automation"       
-          git tag -a v1236 -m "Version v1236"  
-          git push origin v1236
+          git tag -a ${{ steps.versionNumber.outputs.version }} -m "Version ${{ steps.versionNumber.outputs.version }}"  
+          git push origin ${{ steps.versionNumber.outputs.version}}
