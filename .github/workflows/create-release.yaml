@@ -31,7 +31,7 @@ jobs:
            GH_TOKEN: ${{ github.token }}
         run: |
           TAG_NAME=${{ steps.latest_tag.outputs.tag }}
-          EXISTING_RELEASE=$(gh release view $TAG_NAME --json name --jq ".name" 2>/dev/null || echo "not found")
+          EXISTING_RELEASE=$(gh release view $TAG_NAME --json tagName --jq ".tagName" 2>/dev/null || echo "not found")
           echo "$EXISTING_RELEASE"
           eval echo "exists=$EXISTING_RELEASE" >> $GITHUB_OUTPUT
           # if [ "$EXISTING_RELEASE" != "release not found" ]; then
@@ -43,7 +43,7 @@ jobs:
           # fi
           
       - name: Create Release
-        if: steps.check_release.outputs.exists == '[1]'  
+        if: steps.check_release.outputs.exists == 'not found'  
         id: create_release
         uses: actions/create-release@v1.1.4
         env:
