@@ -32,19 +32,12 @@ jobs:
           eval echo "MERGEABLE_STATUS=$MERGEABLE_STATUS >> $GITHUB_OUTPUT"
           eval echo "PR_NUMBER=$PR_NUMBER >> $GITHUB_OUTPUT"
 
-          if [ "$MERGEABLE_STATUS" == "CONFLICTING" ]; then
-            echo "PR has conflicts. Cannot merge."
-          elif [ "$MERGEABLE_STATUS" == "MERGEABLE" ]; then
+
+      - name: Check and Merge PR     
+        if: ${{ steps.create_pr.outputs.MERGEABLE_STATUS == 'MERGEABLE' }} 
+        run: |
             gh pr merge ${{ steps.create_pr.outputs.PR_NUMBER }} --merge
             echo "PR has been automatically merged."
-          else
-            echo "Unexpected mergeable status: $MERGEABLE_STATUS"
-          fi
-      # - name: Check and Merge PR     
-      #   if: ${{ steps.create_pr.outputs.MERGEABLE_STATUS == 'MERGEABLE' }} 
-      #   run: |
-      #       gh pr merge ${{ steps.create_pr.outputs.PR_NUMBER }} --merge
-      #       echo "PR has been automatically merged."
-      #   env:
-      #       GH_TOKEN: ${{ github.token }}    
+        env:
+            GH_TOKEN: ${{ github.token }}    
 
