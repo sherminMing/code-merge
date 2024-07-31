@@ -10,7 +10,7 @@ jobs:
 
   generate-version-number:
     name: Generate Version Number
-    runs-on: ${{ env.SERVER }}
+    runs-on: $SERVER 
     steps:
       - name: Write Version to File
         run: |
@@ -21,7 +21,7 @@ jobs:
 
   create-tag:
     name: Create New Tag
-    runs-on: ${{ env.SERVER }}
+    runs-on: $SERVER
     needs: generate-version-number
     steps:
       - uses: actions/checkout@v3
@@ -41,7 +41,7 @@ jobs:
           
   deploy-to-uk-fsi-prod:
     name: Deploy to uk fsi prod
-    runs-on: ${{ env.SERVER }}
+    runs-on: $SERVER
     needs: create-tag
     steps:  
       - name: Checkout  
