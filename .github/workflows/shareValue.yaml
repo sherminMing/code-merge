@@ -10,7 +10,7 @@ jobs:
 
   generate-version-number:
     name: Generate Version Number
-    runs-on: "$SERVER" 
+    runs-on: ["${{ env.SERVER }}"]
     steps:
       - name: Write Version to File
         run: |
