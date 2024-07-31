@@ -4,13 +4,13 @@ on:
 
 env:
   TASK_ID: ${{ github.run_id }}-${{ github.run_number }}
-  VERSION_NUMBER: ""
+  SERVER: "ubuntu-latest"
 
 jobs:
 
   generate-version-number:
     name: Generate Version Number
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.SERVER }}
     steps:
       - name: Write Version to File
         run: |
@@ -21,7 +21,7 @@ jobs:
 
   create-tag:
     name: Create New Tag
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.SERVER }}
     needs: generate-version-number
     steps:
       - uses: actions/checkout@v3
@@ -41,7 +41,7 @@ jobs:
           
   deploy-to-uk-fsi-prod:
     name: Deploy to uk fsi prod
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.SERVER }}
     needs: create-tag
     steps:  
       - name: Checkout  
