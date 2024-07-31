@@ -28,19 +28,6 @@ jobs:
         with:
           fetch-depth: 0
           
-      - name: Download Artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: version-artifact
-
-      - name: Read Version from File
-        id: versionNumber
-        run: |
-          cd version-artifact  
-          version=$(cat version.txt)  
-          echo "The version of new tag is: $version"
-          eval echo "version=$version >> $GITHUB_OUTPUT"
-
       - name: Create Git Tag
         id: create_tag
         run: |
