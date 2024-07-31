@@ -1,6 +1,12 @@
 name: shareValue
 on:
   workflow_dispatch:
+    inputs:
+      chosen-os:
+        required: true
+        type: choice
+        options:
+        - ubuntu-latest
 
 env:
   TASK_ID: ${{ github.run_id }}-${{ github.run_number }}
@@ -10,7 +16,7 @@ jobs:
 
   generate-version-number:
     name: Generate Version Number
-    runs-on: "${{ env.SERVER }}"
+    runs-on: ["${{ inputs.chosen-os }}"]
     steps:
       - name: Write Version to File
         run: |
