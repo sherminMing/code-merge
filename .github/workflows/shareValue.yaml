@@ -11,38 +11,18 @@ jobs:
   generate-version-number:
     name: Generate Version Number
     runs-on: ubuntu-latest
-    env:
-      VERSION_NUMBER: ${{ steps.versionNumber.outputs.version }}
-    container:
-      image: 732440210582.dkr.ecr.eu-west-1.amazonaws.com/library/openjdk:jdk21-maven-3-9-6
-      credentials:
-        username: AWS
-        password: ${{ secrets.AWS_ECR_PASSWORD }}
-      options: --user root
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Write Version to File
         run: |
-          echo "v$(date "+%Y%m%d%H%M%S")" > version.txt  
+          VERSION="v1.0.0-${{ github.run_number }}"
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "Generated version: $VERSION"
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: version-artifact
-          path: "version.txt"
 
   create-tag:
     name: Create New Tag
     runs-on: ubuntu-latest
     needs: generate-version-number
-    container:
-      image: 732440210582.dkr.ecr.eu-west-1.amazonaws.com/library/openjdk:jdk21-maven-3-9-6
-      credentials:
-        username: AWS
-        password: ${{ secrets.AWS_ECR_PASSWORD }}
-      options: --user root
     steps:
       - uses: actions/checkout@v3
         with:
@@ -67,8 +47,8 @@ jobs:
           git config --global --add safe.directory "$(pwd)" 
           git config --global user.email "automationNoReply@ssnc.com"
           git config --global user.name "Github Automation"       
-          git tag -a ${{ env.VERSION_NUMBER }} -m "Version ${{ env.VERSION_NUMBER }}"  
-          git push origin ${{ env.VERSION_NUMBER}}
+          git tag -a $VERSION -m "Version $VERSION"  
+          git push origin $VERSION
           
           
   deploy-to-uk-fsi-prod:
@@ -84,7 +64,7 @@ jobs:
       - name: Initiate Argo CD (Prod)
         run: |  
           echo "Because there is no lnp-investments in k8s-apps-fsi-uk,So this step is just for test."     
-          echo "${{ env.VERSION_NUMBER }}"
+          echo "$VERSION"
           
 
              
