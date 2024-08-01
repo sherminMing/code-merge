@@ -17,13 +17,15 @@ jobs:
     steps:
       - id: step1
         run: |
-          VERSION="v1.0.0-${{ github.run_number }}"
+          VERSION="v1.0.1-${{ github.run_number }}"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
   create-tag:
     name: Create New Tag
     runs-on: [ "${{ inputs.chosen-runs }}"]
     needs: generate-version-number
+    outputs:
+      version: ${{ needs.generate-version-number.outputs.version}}
     steps:
        
       - uses: actions/checkout@v3
