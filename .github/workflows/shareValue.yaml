@@ -16,7 +16,7 @@ jobs:
       - name: Write Version to File
         run: |
           VERSION="v1.0.0-${{ github.run_number }}"
-          eval echo "version=$version >> $GITHUB_OUTPUT"
+          eval echo "version=$version >> $GITHUB_ENV"
 
   create-tag:
     name: Create New Tag
