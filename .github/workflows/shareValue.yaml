@@ -1,29 +1,29 @@
 name: shareValue
 on:
   workflow_dispatch:
-
-
-env:
-  TASK_ID: ${{ github.run_id }}-${{ github.run_number }}
-  SERVER_NAME: "ubuntu-latest"
-
+    inputs:
+      chosen-runs:
+        required: true
+        type: choice
+        options:
+        - ubuntu-latest
+      
 jobs:
-
   generate-version-number:
     name: Generate Version Number
-    runs-on: ["${{ env.SERVER_NAME }}"]
+    runs-on:  [ "${{ inputs.chosen-runs }}"]
     steps:
       - name: Write Version to File
         run: |
           VERSION="v1.0.0-${{ github.run_number }}"
-          echo "VERSION=${VERSION}" >> $GITHUB_ENV
-          echo "Generated version: $VERSION"
-
+          eval echo "version=$version >> $GITHUB_OUTPUT"
 
   create-tag:
     name: Create New Tag
-    runs-on: $SERVER
+    runs-on: [ "${{ inputs.chosen-runs }}"]
     needs: generate-version-number
+    outputs:
+      verstion: ${{needs.generate-version-number.outputs.output}}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -36,13 +36,13 @@ jobs:
           git config --global --add safe.directory "$(pwd)" 
           git config --global user.email "automationNoReply@ssnc.com"
           git config --global user.name "Github Automation"       
-          git tag -a $VERSION -m "Version $VERSION"  
-          git push origin $VERSION
+          git tag -a ${{needs.generate-version-number.outputs.output}} -m "Version $VERSION"  
+          git push origin ${{needs.generate-version-number.outputs.output}}
           
           
   deploy-to-uk-fsi-prod:
     name: Deploy to uk fsi prod
-    runs-on: $SERVER
+    runs-on: [ "${{ inputs.chosen-runs }}"]
     needs: create-tag
     steps:  
       - name: Checkout  
@@ -53,7 +53,7 @@ jobs:
       - name: Initiate Argo CD (Prod)
         run: |  
           echo "Because there is no lnp-investments in k8s-apps-fsi-uk,So this step is just for test."     
-          echo "$VERSION"
+          echo "${{needs.create-tag.outputs.version}}"
           
 
              
