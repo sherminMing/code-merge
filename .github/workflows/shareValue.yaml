@@ -16,7 +16,6 @@ jobs:
       version: ${{ steps.step1.outputs.version }}
     steps:
       - id: step1
-      - name: Write Version to File
         run: |
           VERSION="v1.0.0-${{ github.run_number }}"
           eval echo "version=$version >> $GITHUB_OUTPUT"
