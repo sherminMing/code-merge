@@ -26,7 +26,7 @@ jobs:
     needs: generate-version-number
     steps:
       - env:
-          version: ${{ needs.generate-version-number.outputd.version}}
+          version: ${{ needs.generate-version-number.outputs.version}}
           run: echo "$version"
        
       - uses: actions/checkout@v3
