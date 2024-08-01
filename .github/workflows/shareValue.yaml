@@ -25,14 +25,14 @@ jobs:
     runs-on: [ "${{ inputs.chosen-runs }}"]
     needs: generate-version-number
     steps:
-      - env:
-          version: ${{ needs.generate-version-number.outputd.version}}
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           
       - name: Create Git Tag
         id: create_tag
+      - env:
+          version: ${{ needs.generate-version-number.outputd.version}}
         run: |
           echo "Generated version: $version"
           git config --global --add safe.directory "$(pwd)" 
