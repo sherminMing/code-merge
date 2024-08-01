@@ -18,15 +18,15 @@ jobs:
       - id: step1
         run: |
           VERSION="v1.0.0-${{ github.run_number }}"
-          eval echo "version=$version >> $GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
   create-tag:
     name: Create New Tag
     runs-on: [ "${{ inputs.chosen-runs }}"]
     needs: generate-version-number
-    outputs:
-      verstion: ${{needs.generate-version-number.outputs.version}}
     steps:
+      - env:
+          version: ${{ needs.generate-version-number.outputd.version}}
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -34,12 +34,12 @@ jobs:
       - name: Create Git Tag
         id: create_tag
         run: |
-          echo "Generated version: ${{needs.generate-version-number.outputs.version}}"
+          echo "Generated version: $version"
           git config --global --add safe.directory "$(pwd)" 
           git config --global user.email "automationNoReply@ssnc.com"
           git config --global user.name "Github Automation"       
-          git tag -a ${{needs.generate-version-number.outputs.version}} -m "Version $VERSION"  
-          git push origin ${{needs.generate-version-number.outputs.version}}
+          git tag -a $version -m "Version $VERSION"  
+          git push origin $version
           
           
   deploy-to-uk-fsi-prod:
