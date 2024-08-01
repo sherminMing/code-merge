@@ -7,6 +7,8 @@ on:
         type: choice
         options:
         - ubuntu-latest
+env:
+   version: ""
       
 jobs:
   generate-version-number:
@@ -17,8 +19,8 @@ jobs:
     steps:
       - id: step1
         run: |
-          VERSION="v1.0.1-${{ github.run_number }}"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          ${{ env.version }}="v1.0.1-${{ github.run_number }}"
+          echo "version=${{ env.version }}" >> "$GITHUB_OUTPUT"
 
   create-tag:
     name: Create New Tag
