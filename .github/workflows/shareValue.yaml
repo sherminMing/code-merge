@@ -35,7 +35,9 @@ jobs:
         run: |
           echo "Generated version: ${{ needs.generate-version-number.outputs.version }}"
           echo "App name: ${{ env.APP_NAME }}"
-          
+          echo "::error file=app.js,line=1::Missing semicolon"
+          echo "::notice file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
+          echo "::warning file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
           
   deploy:
     name: Initiate 
@@ -43,7 +45,7 @@ jobs:
     uses: sherminMing/code-merge/.github/workflows/reuse.yaml@main
     with:
       REGISTRY_URL: atp/animals
-      REGISTRY_IMAGE: ${{ env.APP_NAME }}
+      REGISTRY_IMAGE: animals
       APP_NAME: Hello
           
 
