@@ -36,7 +36,7 @@ jobs:
   deploy-to-uk-fsi-stage:
     name: Initiate ArgoCD - UK FSI Stage
     needs: [create-tag]
-    uses: sherminMing/code-merge/.github/workflows/resue.yaml@main
+    uses: github.com/sherminMing/code-merge/.github/workflows/resue.yaml@main
     with:
       REGISTRY_URL: kea/lnp-investments
       REGISTRY_IMAGE: lnp-investments
