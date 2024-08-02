@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
       REGISTRY_URL:
-        default: "732440210582.dkr.ecr.eu-west-1.amazonaws.com"
+        default: "www.baidu.com"
         required: true
         type: string
       REGISTRY_IMAGE:
@@ -14,9 +14,9 @@ on:
         type: string
 
 jobs:
-  deploy-argocd-fsi:
+  deploy:
     environment: ${{ inputs.ENV_APPROVAL_NAME }}
-    name: deploy-argocd-fsi
+    name: deploy
     runs-on: ubuntu-latest
     steps:
       - name: validate-variables
