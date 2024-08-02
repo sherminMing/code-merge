@@ -43,7 +43,7 @@ jobs:
     uses: sherminMing/code-merge/.github/workflows/reuse.yaml@main
     with:
       REGISTRY_URL: atp/animals
-      REGISTRY_IMAGE: animals
+      REGISTRY_IMAGE: ${{ env.APP_NAME }}
       APP_NAME: Hello
           
 
