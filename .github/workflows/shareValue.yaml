@@ -1,19 +1,14 @@
 name: shareValue
 on:
   workflow_dispatch:
-    inputs:
-      chosen-runs:
-        required: true
-        type: choice
-        options:
-        - ubuntu-latest
+
 env:
-   version: ""
+   RUN_NAME: ubuntu-latest
       
 jobs:
   generate-version-number:
     name: Generate Version Number
-    runs-on:  [ "${{ inputs.chosen-runs }}"]
+    runs-on: "{{ env.RUN_NAME }}"
     outputs:
       version: ${{ steps.step1.outputs.version }}
     steps:
@@ -24,7 +19,7 @@ jobs:
 
   create-tag:
     name: Create New Tag
-    runs-on: [ "${{ inputs.chosen-runs }}"]
+    runs-on: "{{ env.RUN_NAME }}"
     needs: generate-version-number
     outputs:
       version: ${{ needs.generate-version-number.outputs.version}}
