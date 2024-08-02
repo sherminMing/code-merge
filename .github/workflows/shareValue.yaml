@@ -41,7 +41,7 @@ jobs:
     uses: sherminMing/code-merge/.github/workflows/reuse.yaml@main
     with:
       REGISTRY_URL: kea/lnp-investments
-      REGISTRY_IMAGE: ${{ env.APP_NAME}}
+      REGISTRY_IMAGE: "${{ env.APP_NAME}}"
       APP_NAME: fsi-uk-kea-stage
           
 
