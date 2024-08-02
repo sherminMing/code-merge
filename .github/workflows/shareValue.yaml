@@ -11,8 +11,8 @@ jobs:
     steps:
       - id: step1
         run: |
-          ${{ env.version }}="v1.0.2-${{ github.run_number }}"
-          echo "version=${{ env.version }}" >> "$GITHUB_OUTPUT"
+          VERSION="v1.0.2-${{ github.run_number }}"
+          echo "version=VERSION" >> "$GITHUB_OUTPUT"
 
   create-tag:
     name: Create New Tag
