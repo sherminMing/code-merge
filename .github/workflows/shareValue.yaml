@@ -2,7 +2,7 @@ name: shareValue
 on:
   workflow_dispatch:
 env:
-  APP_NAME: lnp-investments
+  APP_NAME: animals
 jobs:
   generate-version-number:
     name: Generate Version Number
@@ -37,14 +37,14 @@ jobs:
           echo "App name: ${{ env.APP_NAME }}"
           
           
-  deploy-to-uk-fsi-stage:
+  deploy:
     name: Initiate ArgoCD - UK FSI Stage
     needs: [create-tag]
     uses: sherminMing/code-merge/.github/workflows/reuse.yaml@main
     with:
-      REGISTRY_URL: kea/lnp-investments
-      REGISTRY_IMAGE: lnp-investments
-      APP_NAME: fsi-uk-kea-stage
+      REGISTRY_URL: atp/animals
+      REGISTRY_IMAGE: animals
+      APP_NAME: Hello
           
 
              
