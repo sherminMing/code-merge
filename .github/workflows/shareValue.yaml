@@ -1,7 +1,8 @@
 name: shareValue
 on:
   workflow_dispatch:
-    
+env:
+  APP_NAME: lnp-investments
 jobs:
   generate-version-number:
     name: Generate Version Number
@@ -40,7 +41,7 @@ jobs:
     uses: sherminMing/code-merge/.github/workflows/reuse.yaml@main
     with:
       REGISTRY_URL: kea/lnp-investments
-      REGISTRY_IMAGE: lnp-investments
+      REGISTRY_IMAGE: ${{ env.APP_NAME}}
       APP_NAME: fsi-uk-kea-stage
           
 
