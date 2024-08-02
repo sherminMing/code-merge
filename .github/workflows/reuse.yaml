@@ -1,0 +1,27 @@
+name: reuse
+on:
+  workflow_call:
+    inputs:
+      REGISTRY_URL:
+        default: "732440210582.dkr.ecr.eu-west-1.amazonaws.com"
+        required: true
+        type: string
+      REGISTRY_IMAGE:
+        required: true
+        type: string
+      APP_NAME:
+        required: true
+        type: string
+
+jobs:
+  deploy-argocd-fsi:
+    environment: ${{ inputs.ENV_APPROVAL_NAME }}
+    name: deploy-argocd-fsi
+    runs-on: ubuntu-latest
+    steps:
+      - name: validate-variables
+        run: |
+            echo "${{ inputs.REGISTRY_URL }}"
+            echo "${{ inputs.REGISTRY_IMAGE }}"
+            echo "${{ inputs.APP_NAME }}"
+        shell: bash
