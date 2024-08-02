@@ -38,7 +38,7 @@ jobs:
           
           
   deploy:
-    name: Initiate ArgoCD - UK FSI Stage
+    name: Initiate 
     needs: [create-tag]
     uses: sherminMing/code-merge/.github/workflows/reuse.yaml@main
     with:
