@@ -8,7 +8,7 @@ env:
 jobs:
   generate-version-number:
     name: Generate Version Number
-    runs-on: "{{ env.RUN_NAME }}"
+    runs-on: ["{{ env.RUN_NAME }}"]
     outputs:
       version: ${{ steps.step1.outputs.version }}
     steps:
