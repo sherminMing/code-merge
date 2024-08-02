@@ -3,12 +3,12 @@ on:
   workflow_dispatch:
 
 env:
-   RUN_NAME: ubuntu-latest
+  RUN_NAME: ubuntu-latest
       
 jobs:
   generate-version-number:
     name: Generate Version Number
-    runs-on: ["{{ env.RUN_NAME }}"]
+    runs-on: "${{ env.RUN_NAME }}"
     outputs:
       version: ${{ steps.step1.outputs.version }}
     steps:
