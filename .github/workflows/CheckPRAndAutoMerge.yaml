@@ -20,8 +20,6 @@ jobs:
           echo "PR url is $PR_URL"
           PR_NUMBER=$(echo "$PR_URL" | sed 's/.*\///')
           
-
-          
           PR_STATUS=$(gh pr status --conflict-status --json url,number,state,mergeable)
           echo "$PR_STATUS"
           # Parse JSON and extract mergeable status
@@ -30,11 +28,12 @@ jobs:
           echo "1:$MERGEABLE_STATUS:2"
           
           if [ "$MERGEABLE_STATUS" = "CONFLICTING" ]; then
-            echo "1111111111111111"
+            echo "Code conflict......"
           elif [ "$MERGEABLE_STATUS" = "MERGEABLE" ]; then
-            echo "2222222222222222"
+            gh pr merge ${{ steps.create_pr.outputs.PR_NUMBER }} --merge
+            echo "PR has been automatically merged."
           else
-            echo "Unknown status: ${MERGEABLE_STATUS}"
+            echo "Unknown merge status: ${MERGEABLE_STATUS}"
             exit 1
           fi
 
