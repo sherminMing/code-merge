@@ -25,7 +25,7 @@ jobs:
           PR_STATUS=$(gh pr status --conflict-status --json url,number,state,mergeable)
           echo "$PR_STATUS"
           # Parse JSON and extract mergeable status
-          MERGEABLE_STATUS=$(echo "$PR_STATUS" | jq '.currentBranch.mergeable')
+          MERGEABLE_STATUS=$(echo "$PR_STATUS" | jq '.currentBranch.mergeable' | xargs)
           echo "Mergeable status: "
           echo "1:$MERGEABLE_STATUS:2"
           
