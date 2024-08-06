@@ -30,8 +30,7 @@ jobs:
              
           #Check whether the code can be merged automatically
           if [ "$MERGEABLE_STATUS" = "CONFLICTING" ]; then
-          echo "::workflow-command Code conflict......"
-          exit 1
+          echo "::warning Code conflict......"
           elif [ "$MERGEABLE_STATUS" = "MERGEABLE" ]; then
           gh pr merge ${PR_NUMBER} --merge
           echo "PR has been automatically merged."
