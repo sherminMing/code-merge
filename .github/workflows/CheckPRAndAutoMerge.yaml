@@ -30,7 +30,7 @@ jobs:
              
           #Check whether the code can be merged automatically
           if [ "$MERGEABLE_STATUS" = "CONFLICTING" ]; then
-          echo "::error ::This PR (${PR_URL}) has conflicts that must be resolved."
+          echo "::error ::This PR (${PR_URL) has conflicts that must be resolved."
           elif [ "$MERGEABLE_STATUS" = "MERGEABLE" ]; then
           gh pr merge ${PR_NUMBER} --merge
           echo "PR has been automatically merged."
