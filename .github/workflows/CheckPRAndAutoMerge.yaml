@@ -30,7 +30,7 @@ jobs:
              
           #Check whether the code can be merged automatically
           if [ "$MERGEABLE_STATUS" = "CONFLICTING" ]; then
-          echo "::warning This PR has conflicts that must be resolved."
+          echo "::warning file=app.js,line=1,col=5,endColumn=7::This PR has conflicts that must be resolved."
           elif [ "$MERGEABLE_STATUS" = "MERGEABLE" ]; then
           gh pr merge ${PR_NUMBER} --merge
           echo "PR has been automatically merged."
