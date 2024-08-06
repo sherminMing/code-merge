@@ -20,23 +20,27 @@ jobs:
           echo "PR url is $PR_URL"
           PR_NUMBER=$(echo "$PR_URL" | sed 's/.*\///')
           
-
-          
           PR_STATUS=$(gh pr status --conflict-status --json url,number,state,mergeable)
           echo "$PR_STATUS"
           # Parse JSON and extract mergeable status
           MERGEABLE_STATUS=$(echo "$PR_STATUS" | jq '.currentBranch.mergeable')
-          echo "Mergeable status: "
-          echo "$MERGEABLE_STATUS"
-          
-          if [[ "${MERGEABLE_STATUS}" == "CONFLICTING" ]]; then
-            echo "1111111111111111"
-          elif [[ "${MERGEABLE_STATUS}" == "MERGEABLE" ]]; then
-            echo "2222222222222222"
+          # Parse JSON and extract mergeable status
+          MERGEABLE_STATUS=$(echo "$PR_STATUS" | jq '.currentBranch.mergeable' | xargs)
+          echo "Mergeable status: $MERGEABLE_STATUS"
+             
+          #Check whether the code can be merged automatically
+          if [ "$MERGEABLE_STATUS" = "CONFLICTING" ]; then
+          echo "Code conflict......"
+          exit 1
+          elif [ "$MERGEABLE_STATUS" = "MERGEABLE" ]; then
+          gh pr merge ${PR_NUMBER} --merge
+          echo "PR has been automatically merged."
           else
-            echo "Unknown status: ${MERGEABLE_STATUS}"
-            exit 1
+          echo "Unknown merge status: ${MERGEABLE_STATUS}"
+          exit 1
           fi
+          
+
 
  
 
